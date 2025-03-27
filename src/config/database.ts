@@ -1,12 +1,16 @@
 import { Sequelize } from 'sequelize';
+import 'dotenv/config';
 
-const sequelize = new Sequelize(process.env.DATABASE_URL || '', {
+if (!process.env.DATABASE_URL) {
+  throw new Error("Missing DATABASE_URL in environment variables.");
+}
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
-  logging: false,
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false,
+      rejectUnauthorized: false, // Allows self-signed certificates
     },
   },
 });
