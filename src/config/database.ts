@@ -1,12 +1,14 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize({
+const sequelize = new Sequelize(process.env.DATABASE_URL || '', {
   dialect: 'postgres',
-  host: 'localhost', // Update with your DB host
-  username: 'your-username',
-  password: 'your-password',
-  database: 'task_management',
   logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 export default sequelize;
